@@ -118,5 +118,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef5565b5c54ce474a859ce526cbab4c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserbeamPrefab: {fileID: 751649590883446712, guid: c93fa101efa44d7418ce21a2afe5fced, type: 3}
+  laserbeamPrefab: {fileID: 7255353295278148674, guid: 12f4c714a242d3747a8dbda20ba9029b, type: 3}
   fireRate: 2

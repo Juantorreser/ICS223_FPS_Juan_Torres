@@ -2,19 +2,48 @@ using UnityEngine;
 
 public class SceneController : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject enemyPrefab;
-    private GameObject enemy;
-    private Vector3 spawnPoint = new Vector3(0, 0, 5);
-    // Update is called once per frame
+    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private int enemyCount = 5; 
+    private GameObject[] enemies; 
+    private Vector3 spawnAreaMin = new Vector3(-5, 0, -5);
+    private Vector3 spawnAreaMax = new Vector3(5, 0, 5);
+
+    void Start()
+    {
+        enemies = new GameObject[enemyCount]; // Initialize array
+        SpawnEnemies(); // Spawn initial enemies
+    }
+
     void Update()
     {
-        if (enemy == null)
+        // Loop through enemies array to check for destroyed ones
+        for (int i = 0; i < enemies.Length; i++)
         {
-            enemy = Instantiate(enemyPrefab) as GameObject;
-            enemy.transform.position = spawnPoint;
-            float angle = Random.Range(0, 360);
-            enemy.transform.Rotate(0, angle, 0);
+            if (enemies[i] == null) // If an enemy was destroyed, respawn it
+            {
+                enemies[i] = SpawnEnemy();
+            }
         }
+    }
+
+    void SpawnEnemies()
+    {
+        for (int i = 0; i < enemyCount; i++)
+        {
+            enemies[i] = SpawnEnemy();
+        }
+    }
+
+    GameObject SpawnEnemy()
+    {
+        Vector3 spawnPos = new Vector3(
+            Random.Range(spawnAreaMin.x, spawnAreaMax.x),
+            0,
+            Random.Range(spawnAreaMin.z, spawnAreaMax.z)
+        );
+
+        GameObject newEnemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+        newEnemy.transform.Rotate(0, Random.Range(0, 360), 0);
+        return newEnemy;
     }
 }
