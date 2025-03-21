@@ -2,7 +2,7 @@ using UnityEngine;
 public enum EnemyStates { alive, dead };
 public class WanderingAI : MonoBehaviour
 {
-    private float enemySpeed = 3.0f;
+    private float enemySpeed = 1.7f;
     private float obstacleRange = 5.0f;
     private float sphereRadius = 0.75f;
     private EnemyStates state;
