@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour
 {
-    private int health;
+    public int health;
     // Use this for initialization
     void Start()
     {

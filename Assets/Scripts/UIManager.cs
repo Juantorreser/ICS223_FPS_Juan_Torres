@@ -4,17 +4,18 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    private int score = 0;
+    //private int score = 0;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private Image healthBar;
     [SerializeField] private Image crossHair;
     [SerializeField] private OptionsPopup optionsPopup;
     [SerializeField] private SettingsPopup settingsPopup;
+    [SerializeField] private PlayerCharacter player;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        UpdateScore(score);
+        //UpdateScore(score);
         healthBar.fillAmount = 1;
         healthBar.color = Color.green;
         SetGameActive(true);
@@ -28,6 +29,10 @@ public class UIManager : MonoBehaviour
             SetGameActive(false);
             optionsPopup.Open();
         }
+
+        float normalizedHealth = (player.health - 1) / 4.0f;
+        healthBar.fillAmount = player.health;
+        healthBar.color = Color.Lerp(Color.red, Color.green, player.health);
     }
 
     // update score display

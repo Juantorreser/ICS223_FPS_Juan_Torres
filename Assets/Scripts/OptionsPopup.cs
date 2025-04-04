@@ -1,22 +1,22 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OptionsPopup : MonoBehaviour
+public class OptionsPopup : BasePopup
 {
     [SerializeField] private UIManager uiManager;
     [SerializeField] private SettingsPopup settingsPopup;
-    public void Open()
-    {
-        gameObject.SetActive(true);
-    }
-    public void Close()
-    {
-        gameObject.SetActive(false);
-    }
-    public bool IsActive()
-    {
-        return gameObject.activeSelf;
-    }
+    //public void Open()
+    //{
+    //    gameObject.SetActive(true);
+    //}
+    //public void Close()
+    //{
+    //    gameObject.SetActive(false);
+    //}
+    //public bool IsActive()
+    //{
+    //    return gameObject.activeSelf;
+    //}
     public void OnSettingsButton()
     {
         Close();
