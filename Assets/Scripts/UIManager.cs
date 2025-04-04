@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private OptionsPopup optionsPopup;
     [SerializeField] private SettingsPopup settingsPopup;
     [SerializeField] private PlayerCharacter player;
+    [SerializeField] private GameOverPopup gameOverPopup;
     private int popupsActive = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -102,5 +103,10 @@ public class UIManager : MonoBehaviour
             crossHair.gameObject.SetActive(false); // turn off the crosshair
             Messenger.Broadcast(GameEvent.GAME_INACTIVE);
         }
+    }
+
+    public void ShowGameOverPopup()
+    {
+        gameOverPopup.Open();
     }
 }

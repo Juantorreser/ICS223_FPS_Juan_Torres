@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
@@ -17,11 +18,21 @@ public class SceneController : MonoBehaviour
     {
         Messenger.AddListener(GameEvent.ENEMY_DEAD, OnEnemyDead);
         Messenger<int>.AddListener(GameEvent.DIFFICULTY_CHANGED, OnDifficultyChanged);
+        Messenger.AddListener(GameEvent.PLAYER_DEAD, OnPlayerDead);
+        Messenger.AddListener(GameEvent.RESTART_GAME, OnRestartGame);
     }
     private void OnDestroy()
     {
         Messenger.RemoveListener(GameEvent.ENEMY_DEAD, OnEnemyDead);
         Messenger<int>.RemoveListener(GameEvent.DIFFICULTY_CHANGED, OnDifficultyChanged);
+        Messenger.RemoveListener(GameEvent.PLAYER_DEAD, OnPlayerDead);
+        Messenger.RemoveListener(GameEvent.RESTART_GAME, OnRestartGame);
+
+    }
+
+    private void OnPlayerDead()
+    {
+        ui.ShowGameOverPopup();
     }
     private void OnEnemyDead()
     {
@@ -29,6 +40,10 @@ public class SceneController : MonoBehaviour
         ui.UpdateScore(score);
     }
 
+    public void OnRestartGame()
+    {
+        SceneManager.LoadScene(0);
+    }
     private void OnDifficultyChanged(int newDifficulty) {
 
         Debug.Log("Scene.OnDifficultyChanged(" + newDifficulty + ")");
@@ -56,14 +71,14 @@ public class SceneController : MonoBehaviour
 
     void Update()
     {
-        // Loop through enemies array to check for destroyed ones
+        //Loop through enemies array to check for destroyed ones
         for (int i = 0; i < enemies.Length; i++)
-        {
-            if (enemies[i] == null) // If an enemy was destroyed, respawn it
             {
-                enemies[i] = SpawnEnemy();
+                if (enemies[i] == null) // If an enemy was destroyed, respawn it
+                {
+                    enemies[i] = SpawnEnemy();
+                }
             }
-        }
     }
 
     void SpawnEnemies()

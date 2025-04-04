@@ -5,6 +5,7 @@ public class FPSInput : MonoBehaviour
     private float gravity = -9.8f;
     public float speed = 9.0f;
     private CharacterController charController;
+    private float pushForce = 5.0f;
 
     private void Start()
     {
@@ -32,5 +33,15 @@ public class FPSInput : MonoBehaviour
         movement = transform.TransformDirection(movement);
 
         charController.Move(movement);
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Rigidbody body = hit.collider.attachedRigidbody;
+        // does it have a rigidbody and is Physics enabled?
+        if (body != null && !body.isKinematic)
+        {
+            body.linearVelocity = hit.moveDirection * pushForce;
+        }
     }
 }
