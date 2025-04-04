@@ -10,12 +10,12 @@ public class SettingsPopup : BasePopup
 
     override public void Open()
     {
+        Debug.Log(">>> SettingsPopup.Open() triggered");
         base.Open();
-
         slider.value = PlayerPrefs.GetInt("difficulty", 1);
         UpdateDifficulty(slider.value);
-
     }
+
 
     //public void Close()
     //{
@@ -28,16 +28,17 @@ public class SettingsPopup : BasePopup
 
     public void onOKButton()
     {
-        Close();
-        optionsPopup.Open();
+
         PlayerPrefs.SetInt("difficulty", (int)slider.value);
         Messenger<int>.Broadcast(GameEvent.DIFFICULTY_CHANGED, (int)slider.value);
+        optionsPopup.Open();
+        Close();
     }
 
     public void onCancelButton()
     {
-        Close();
         optionsPopup.Open();
+        Close();
     }
 
     public void UpdateDifficulty(float difficulty)

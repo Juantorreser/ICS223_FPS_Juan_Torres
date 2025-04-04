@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
-public class MouseLook : MonoBehaviour
+public class MouseLook : ActiveDuringGameplay
+
 {
     public enum RotationAxes
     {

@@ -1,14 +1,29 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class BasePopup : MonoBehaviour
 {
-    virtual public void Open()
+    public virtual void Open()
     {
-        gameObject.SetActive(true);
+        if (!IsActive())
+        {
+            gameObject.SetActive(true);
+            Messenger.Broadcast(GameEvent.POPUP_OPENED);
+        }
+        else
+        {
+            Debug.LogError(this + ".Open() – trying to open a popup that is already active!");
+        }
     }
+
     virtual public void Close()
     {
-        gameObject.SetActive(false);
+        if (IsActive())
+        {
+            gameObject.SetActive(false);
+            Messenger.Broadcast(GameEvent.POPUP_CLOSED);
+        }
     }
     public bool IsActive()
     {

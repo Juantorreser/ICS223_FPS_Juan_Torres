@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class RayShooter : MonoBehaviour
+public class RayShooter : ActiveDuringGameplay
 {
     private Camera cam;
 

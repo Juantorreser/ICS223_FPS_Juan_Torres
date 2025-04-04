@@ -11,28 +11,71 @@ public class UIManager : MonoBehaviour
     [SerializeField] private OptionsPopup optionsPopup;
     [SerializeField] private SettingsPopup settingsPopup;
     [SerializeField] private PlayerCharacter player;
+    private int popupsActive = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         //UpdateScore(score);
-        healthBar.fillAmount = 1;
-        healthBar.color = Color.green;
+        UpdateHealth(1.0f);
         SetGameActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !optionsPopup.IsActive() && !settingsPopup.IsActive())
+        if (Input.GetKeyDown(KeyCode.Escape) && popupsActive == 0)
         {
-            SetGameActive(false);
             optionsPopup.Open();
         }
+    }
 
-        float normalizedHealth = (player.health - 1) / 4.0f;
-        healthBar.fillAmount = player.health;
-        healthBar.color = Color.Lerp(Color.red, Color.green, player.health);
+
+    private void OnEnable()
+    {
+        Messenger.AddListener(GameEvent.POPUP_OPENED, OnPopupOpened);
+        Messenger.AddListener(GameEvent.POPUP_CLOSED, OnPopupClosed);
+        Messenger<float>.AddListener(GameEvent.HEALTH_CHANGED, OnHealthChanged);
+    }
+
+    void OnDisable()
+    {
+        Messenger.RemoveListener(GameEvent.POPUP_OPENED, OnPopupOpened);
+        Messenger.RemoveListener(GameEvent.POPUP_CLOSED, OnPopupClosed);
+        Messenger<float>.RemoveListener(GameEvent.HEALTH_CHANGED, OnHealthChanged);
+    }
+
+    private void OnPopupOpened()
+    {
+        Debug.Log(popupsActive);
+        if (popupsActive == 0)
+        {
+            SetGameActive(false);
+              
+        }
+        popupsActive++;
+    }
+
+    private void OnPopupClosed()
+    {
+        popupsActive--;
+        if (popupsActive <= 0)
+        {
+            popupsActive = 0;
+            SetGameActive(true);
+        }
+    }
+
+
+    void OnHealthChanged(float healthPercentage)
+    {
+        UpdateHealth(healthPercentage);
+    }
+
+    void UpdateHealth(float healthPercentage)
+    {
+        healthBar.fillAmount = healthPercentage;
+        healthBar.color = Color.Lerp(Color.red, Color.green, healthPercentage);
     }
 
     // update score display
@@ -49,6 +92,7 @@ public class UIManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked; // lock cursor at center
             Cursor.visible = false; // hide cursor
             crossHair.gameObject.SetActive(true); // show the crosshair
+            Messenger.Broadcast(GameEvent.GAME_ACTIVE);
         }
         else
         {
@@ -56,6 +100,7 @@ public class UIManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.None; // let cursor move freely
             Cursor.visible = true; // show the cursor
             crossHair.gameObject.SetActive(false); // turn off the crosshair
+            Messenger.Broadcast(GameEvent.GAME_INACTIVE);
         }
     }
 }

@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class OptionsPopup : BasePopup
 {
-    [SerializeField] private UIManager uiManager;
     [SerializeField] private SettingsPopup settingsPopup;
     //public void Open()
     //{
@@ -19,8 +18,8 @@ public class OptionsPopup : BasePopup
     //}
     public void OnSettingsButton()
     {
-        Close();
         settingsPopup.Open();
+        Close();
     }
     public void OnExitGameButton()
     {
@@ -31,6 +30,5 @@ public class OptionsPopup : BasePopup
     {
         Debug.Log("return to game");
         Close();
-        uiManager.SetGameActive(true);
     }
 }

@@ -3354,6 +3354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
+  maxHealth: 5
 --- !u!1 &664300900
 GameObject:
   m_ObjectHideFlags: 0
@@ -5465,7 +5466,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38a47d3685529de489883d17fb3dd1d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiManager: {fileID: 2006763455}
   settingsPopup: {fileID: 1965284427}
 --- !u!1 &1041810738
 GameObject:
